@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "List";
+}
+<style>
+    button {
+        margin-top: 5px;
+    }
+    table{
+        margin-top:20px;
+        width:500px;
+    }
+    table,th,td{
+        border:2px dashed blue;
+        text-align:center;
+     
+    }
+</style>
+<h2>List</h2>
+<div class="jumbotron">
+    @Html.DropDownList("Select Actor", new SelectList((System.Collections.IEnumerable)ViewBag.Actors, "ActorId", "ActorName"), "Select Actor")
+    <br /><button id="btn">Search For Documentary</button>
+  
+</div>
+<div>
+    <table id="doctable">
+        <tr>
+            <th>DocumentaryId</th>
+            <th>DocumentaryName</th>
+            <th> Genre</th>
+            <th>ActorId</th>
+        </tr>
+    </table>
+</div>
+@Scripts.Render("~/bundles/jquery")
+
+<script>
+
+    
+    $("#btn").click(function () {
+        $("#doctable").empty();
+        
+        var id = $("#Select_Actor").val();
+        if (id > 0) {
+            console.log(id);
+            $.ajax({
+                url: 'https://localhost:44380/Api/DocumentaryApi/' + id,
+                type: 'GET',
+
+                dataType: "json",
+                success: function (data) {
+                    var dataval = data;
+                    var jsonobj = dataval;
+                    contentType: "application/json";
+                    $("#doctable").append('<tr><th>Id</th><th>Name</th><th>Genre</th><th>ActorName </th></tr>');
+
+                    $.each(jsonobj, function (i, obj) {
+                        //$("#doctable").add();
+
+                        $("#doctable").append(
+                            '<tr><td>' + obj.DocumentaryId + '</td> <td>' + obj.DocumentaryName + '</td><td>' + obj.Genre + '</td><td>' + obj.ActorId + '</td></tr>'
+
+                        );
+                        $("#doctable").show();
+
+
+                    }
+                    );
+                }
+
+
+
+            }
+            );
+        }
+        else {
+            console.log("rr");
+        }
+    })
+</script>
+
+
+

@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<style>
+    table,td,th{
+        border:2px solid black;
+
+    }
+</style>
+<div class="jumbotron">
+    <button  id="getbtn"> Get All Documentary</button>
+  
+</div>
+<div>
+    <table id="doctable">
+        <tr>
+            <th>DocumentaryId</th>
+            <th>DocumentaryName</th>
+            <th> Genre</th>
+            <th>ActorId</th>
+            <th>ActorName</th>
+            <th>Gender</th>
+            <th>Age</th>
+            <th>DOB</th>
+        </tr>
+    </table>
+
+</div>
+@Scripts.Render("~/bundles/jquery")
+<script>
+    
+
+    $("#getbtn").click(function () {
+        $.ajax({
+            type: "GET",
+            url: "https://localhost:44380/Api/DocumentaryApi",
+            dataType: "json",
+
+            success: function (data) {
+                var dataval = data;
+                var jsonobj = dataval;
+                contentType: "application/json";
+                $.each(jsonobj, function (i, obj) {
+                    $("#doctable").append(
+                        '<tr><td>' + obj.DocumentaryId + '</td> <td>' + obj.DocumentaryName + '</td><td>' + obj.Genre + '</td><td>' + obj.ActorId + '</td><td>' + obj.actor.ActorName + '</td><td>' + obj.actor.Gender + '</td><td>' + obj.actor.Age + '</td><td>'+obj.actor.DOB+'</td></tr>'
+
+                    );
+
+
+                }
+                );
+            }
+        });
+    });
+</script>
