@@ -39,7 +39,11 @@ namespace DocManagementSystem.PL.Controllers
             ViewBag.Actors = list;
             return View();
         }
-
+        /// <summary>
+        /// This is the sample Summary to push
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
         // POST: Doc/Create
         [HttpPost]
         public ActionResult Create(Documentary doc)
